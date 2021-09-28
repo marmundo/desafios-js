@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale = 1.0 ">
+  <style>
+    button {
+      padding: 10px;
+    }
+
+    div {
+      border: 1pt solid black
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Conversor de Temperatura</h1>
+  <input type="button" value="Converter" onclick="converter()">
+  <div id="conteudo">
+
+  </div>
+  <script>
+    function converter() {
+      let temperatura = Number(window.prompt('Qual é a temperatura ?'))
+      let fare = (temperatura * 9 / 5) + 32
+      let kelvin = temperatura + 273.15
+
+      document.querySelector("#conteudo").innerHTML = `<ul>
+        <li>${temperatura} C</li>
+        <li>${fare} F</li>
+        <li>${kelvin} K</li>
+        </ul>`
+
+    }
+  </script>
+</body>
+
+</html>
