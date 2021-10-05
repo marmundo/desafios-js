@@ -1,0 +1,98 @@
+#caixa {
+  height: 200px;
+  width: 200px;
+  background-color: rgb(111, 0, 248);
+  position: absolute;
+  left: 210px;
+  top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 5px solid coral;
+}
+
+body {
+  background-color: greenyellow;
+}
+
+#texto_caixa {
+  color: rgb(255, 255, 255);
+  font-size: 2rem;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.fas {
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.center {
+  margin: auto;
+  padding: 10px;
+  width: 50%;
+  height: 50%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#wrapper {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+#controls {
+  display: inline-grid;
+  grid-column-gap: 0;
+  align-self: end;
+}
+
+.movements_control {
+  border: solid 2px rgb(240, 21, 21);
+  margin: 0.5px;
+  padding: 0;
+  height: 2em;
+  width: 2em;
+}
+
+#keyboard_key_up {
+  grid-column-start: 2;
+  display: flex;
+  justify-content: center;
+}
+
+#keyboard_key_left {
+  grid-column-start: 1;
+  display: flex;
+  justify-content: center;
+}
+
+#keyboard_key_down {
+  display: flex;
+  justify-content: center;
+}
+
+#keyboard_key_right {
+  grid-column-start: 3;
+  display: flex;
+  justify-content: center;
+}
+
+/* @media (min-width: 721px) {
+  .movements_control {
+    width: 40px;
+    height: 40px;
+  }
+} */
+
+/* @media (max-width: 720px) {
+  .movements_control {
+    width: 20px;
+    height: 20px;
+  }
+} */
