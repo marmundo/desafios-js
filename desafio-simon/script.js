@@ -7,18 +7,28 @@ const strictButton = document.querySelector("#strict");
 const onButton = document.querySelector("#on");
 const startButton = document.querySelector("#start");
 
-let opcoes = ["topleft", "topright", "bottomleft", "bottomright"]
+// ordem dos botoes do simon
 let order = [];
+// ordem dos botoes do jogador
 let playerOrder = [];
+// contabiliza quantas vezes os botoes tem que acender
 let flash;
+// contabiliza os pontos ou seja as rodadas
 let turn;
+// variavel que controla se a rodada foi concluida
 let good;
+// variavel que controla a vez de computador
 let compTurn;
+// variavel que controla qual setInterval tá sendo chamado para depois caso necessário parar a funcao usando o clearInterval(intervalId)
 let intervalId;
+// variavel que controla se o jogador perde em caso se apenas um erro.
 let strict = false;
 let noise = true;
+// variavel que controla se o simon está ligado
 let on = false;
+// variavel que controla se o jogador ganhou
 let win;
+// número de rodadas para ganhar o jogo
 let level = 10
 
 strictButton.addEventListener('click', (event) => {
@@ -56,17 +66,19 @@ function play() {
   turn = 1;
   turnCounter.innerHTML = 1;
   good = true;
-  for (var i = 0; i < 20; i++) {
+  // funcao que cria a sequencia de botoes do simon
+  for (var i = 0; i < level; i++) {
     order.push(Math.floor(Math.random() * 4) + 1);
   }
   compTurn = true;
-
+  //chama a funcao gameTurn a cada 800ms
   intervalId = setInterval(gameTurn, 800);
 }
 
 function gameTurn() {
+  //seta para falso para o jogador não apertar nenhum botão
   on = false;
-
+  // se toda a sequencia foi concluida ou seja flash igual a rodada
   if (flash == turn) {
     clearInterval(intervalId);
     compTurn = false;
@@ -133,16 +145,21 @@ function flashColor() {
   bottomRight.style.backgroundColor = "lightskyblue";
 }
 
+// se o jogo ainda nao foi ganho, colocar todas as cores para cores escuras
+function resetColors() {
+  if (!win) {
+    setTimeout(() => {
+      clearColor();
+    }, 300);
+  }
+}
+
 topLeft.addEventListener('click', (event) => {
   if (on) {
     playerOrder.push(1);
     check();
     one();
-    if (!win) {
-      setTimeout(() => {
-        clearColor();
-      }, 300);
-    }
+    resetColors()
   }
 })
 
@@ -151,11 +168,7 @@ topRight.addEventListener('click', (event) => {
     playerOrder.push(2);
     check();
     two();
-    if (!win) {
-      setTimeout(() => {
-        clearColor();
-      }, 300);
-    }
+    resetColors()
   }
 })
 
@@ -164,11 +177,7 @@ bottomLeft.addEventListener('click', (event) => {
     playerOrder.push(3);
     check();
     three();
-    if (!win) {
-      setTimeout(() => {
-        clearColor();
-      }, 300);
-    }
+    resetColors()
   }
 })
 
@@ -177,11 +186,7 @@ bottomRight.addEventListener('click', (event) => {
     playerOrder.push(4);
     check();
     four();
-    if (!win) {
-      setTimeout(() => {
-        clearColor();
-      }, 300);
-    }
+    resetColors()
   }
 })
 
@@ -199,9 +204,10 @@ function check() {
     setTimeout(() => {
       turnCounter.innerHTML = turn;
       clearColor();
-
+      // se nao pode errar inicia o jogo do começo
       if (strict) {
         play();
+        //senao inicia o jogo de onde parou
       } else {
         compTurn = true;
         flash = 0;
