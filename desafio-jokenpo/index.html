@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JOKENPO</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="container">
+    <div id="titulo">
+      <p id="titulo-jogo">JOKENPO</p>
+    </div>
+    <p>Opção do Computador</p>
+    <div class="center" id="escolha-ia">
+      
+    </div>
+    <p>Escolha sua opção</p>
+    <div id="opcoes-jogador">
+      
+      <div class="center" id="pedra" onclick="escolher('pedra')">
+        <img src="images/pedra.png" alt="pedra" srcset="" width="10px" height="10px">
+      </div>
+      <div class="center" id="papel" onclick="escolher('papel')">
+        <img src="images/papel.png" alt="papel" srcset="">
+      </div>
+      <div class="center" id="tesoura" onclick="escolher('tesoura')">
+        <img src="images/tesoura.png" alt="tesoura" srcset="">
+      </div>
+    </div>
+    <div id="resultado" >
+      <p id="resultado-jogo"></p>
+    </div>
+  </div>
+<script src="script.js"></script>
+</body>
+
+</html>
