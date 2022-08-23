@@ -6,6 +6,8 @@ const bottomRight = document.querySelector("#bottomright");
 const strictButton = document.querySelector("#strict");
 const onButton = document.querySelector("#on");
 const startButton = document.querySelector("#start");
+let nomeJogador = ""
+let ranking={}
 
 // ordem dos botoes do simon
 let order = [];
@@ -52,6 +54,7 @@ onButton.addEventListener('click', (event) => {
 });
 
 startButton.addEventListener('click', (event) => {
+  nomeJogador=armazenarNomeJogador()
   if (on || win) {
     play();
   }
@@ -199,6 +202,7 @@ function check() {
   }
 
   if (good == false) {
+    adicionaJogadorNoRanking(nomeJogador,flash)
     flashColor();
     turnCounter.innerHTML = "NO!";
     setTimeout(() => {
@@ -236,4 +240,34 @@ function winGame() {
   turnCounter.innerHTML = "WIN!";
   on = false;
   win = true;
+}
+
+function armazenarNomeJogador() {
+  let nome = prompt("Qual seu nome?")
+  return nome;
+}
+
+function adicionaJogadorNoRanking(nomeJogador, pontos) {
+  ranking[nomeJogador]=pontos
+  ordenaRanking()
+}
+
+function ordenaRanking() {
+  let rankingOrdenado = [];
+  for (var jogador in ranking) {
+    rankingOrdenado.push([jogador, ranking[jogador]]);
+  }
+  rankingOrdenado.sort(function (a, b) {
+    return a[1] - b[1];
+  });
+  atualizaRanking(rankingOrdenado)
+}
+
+function atualizaRanking(ranking) {
+  conteudo=""
+  painelRanking = document.querySelector("#ranking-pontuacao")
+  ranking.forEach(jogador => {
+    conteudo += `<p>${jogador[0]}--${jogador[1]}</p>`
+  });
+  painelRanking.innerHTML = conteudo
 }
