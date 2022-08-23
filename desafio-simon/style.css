@@ -1,7 +1,18 @@
 body {
-  background-image: url(http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/nasty_fabric.png)
+  background-color: beige;
 }
 
+#ranking{
+  position: absolute;
+  left:50px;
+  top:100px;
+  background-color: #eeeeee;
+  border-radius: 10%;
+  padding: 2%;
+}
+h2{
+  text-decoration: underline;
+}
 .toggle {
   margin-left: 20px;
   margin-right: 20px;
