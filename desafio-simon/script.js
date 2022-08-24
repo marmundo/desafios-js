@@ -31,13 +31,31 @@ let noise = true;
 let on = false;
 // variavel que controla se o jogador ganhou
 let win;
-let level=10
 // número de rodadas para ganhar o jogo
+let level = 10
 let nivel = document.querySelector("#niveis")
+
 nivel.addEventListener("change", (e) => {
   level = e.target.value
 })
 
+// Get the modal
+let modal = document.querySelector("#socialmedia");
+
+// Get the <span> element that closes the modal
+let close = document.querySelector(".close");
+
+// When the user clicks on <span> (x), close the modal
+close.addEventListener("click", () => {
+  modal.style.display = "none";
+})
+
+// When the user clicks anywhere outside of the modal, close it
+window.addEventListener('click', (event) => {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+})
 
 strictButton.addEventListener('click', (event) => {
   if (strictButton.checked == true) {
@@ -205,6 +223,7 @@ function check() {
     good = false;
 
   if (playerOrder.length == level && good) {
+    adicionaJogadorNoRanking(nomeJogador, flash)
     winGame();
   }
 
@@ -256,14 +275,15 @@ function armazenarNomeJogador() {
 
 function adicionaJogadorNoRanking(nomeJogador, pontos) {
   placar = { nomeJogador, pontos }
-  console.log(ranking)
   ranking.placares.push(placar)
 
   armazenarRanking(ordenaRanking(ranking))
+
+  showModal()
 }
 
 function rankingtoJSObject(ranking) {
-  object = {placares:[]}
+  object = { placares: [] }
   ranking.forEach(jogador => {
     object.placares.push({ "nomeJogador": jogador[0], "pontos": jogador[1] })
   });
@@ -271,7 +291,7 @@ function rankingtoJSObject(ranking) {
 }
 
 function ordenaRanking(ranking) {
-  placares=ranking.placares
+  placares = ranking.placares
   let rankingOrdenado = [];
   placares.forEach((placar) => {
     rankingOrdenado.push([placar.nomeJogador, placar.pontos]);
@@ -295,7 +315,7 @@ function atualizaRanking(ranking) {
 }
 
 function armazenarRanking(ranking) {
-  ranking=rankingtoJSObject(ranking)
+  ranking = rankingtoJSObject(ranking)
   if (typeof (Storage) !== "undefined") {
     localStorage.setItem("ranking", JSON.stringify(ranking))
   } else {
@@ -306,7 +326,41 @@ function armazenarRanking(ranking) {
 function carregarRanking() {
   ranking = JSON.parse(localStorage.getItem("ranking"))
   if (!ranking) {
-    ranking = {placares:[]}
+    ranking = { placares: [] }
   }
   ordenaRanking(ranking)
 }
+
+function shareOnFacebook(pontuacao) {
+  if (!pontuacao) {
+    navUrl =
+      `https://www.facebook.com/sharer/sharer.php?u=https://marmundo.github.io/desafios-js/desafio-simon/`
+  } else {
+    navUrl =
+      `https://www.facebook.com/sharer/sharer.php?u=Minha pontuação no Simon foi ${pontuacao}https://marmundo.github.io/desafios-js/desafio-simon/`
+  }
+  window.open(navUrl, '_blank');
+}
+const fb = document.getElementById('fb');
+fb.addEventListener('click', () => shareOnFacebook(flash));
+
+function shareOnTwitter(pontuacao) {
+  let navUrl = ""
+  if (!pontuacao) {
+    navUrl =
+      `https://twitter.com/intent/tweet?text=https://marmundo.github.io/desafios-js/desafio-simon/`;
+  } else {
+    navUrl =
+      `https://twitter.com/intent/tweet?text=Minha pontuação no Simon foi ${pontuacao} https://marmundo.github.io/desafios-js/desafio-simon/`;
+  }
+  window.open(navUrl, '_blank');
+}
+
+const tweet = document.getElementById('twitter');
+tweet.addEventListener('click', () => shareOnTwitter(flash));
+
+
+function showModal() {
+  modal.style.display = "block";
+}
+
