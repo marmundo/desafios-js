@@ -31,8 +31,12 @@ let noise = true;
 let on = false;
 // variavel que controla se o jogador ganhou
 let win;
+let level=10
 // número de rodadas para ganhar o jogo
-let level = 10
+let nivel = document.querySelector("#niveis")
+nivel.addEventListener("change", (e) => {
+  level=e.value
+})
 
 
 strictButton.addEventListener('click', (event) => {
@@ -273,7 +277,7 @@ function ordenaRanking(ranking) {
     rankingOrdenado.push([placar.nomeJogador, placar.pontos]);
   })
   rankingOrdenado.sort(function (a, b) {
-    return a[1] - b[1];
+    return b[1] - a[1];
   });
   atualizaRanking(rankingOrdenado)
   return rankingOrdenado
