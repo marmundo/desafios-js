@@ -35,7 +35,7 @@ let level=10
 // número de rodadas para ganhar o jogo
 let nivel = document.querySelector("#niveis")
 nivel.addEventListener("change", (e) => {
-  level=e.value
+  level = e.target.value
 })
 
 
