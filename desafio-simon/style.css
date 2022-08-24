@@ -238,3 +238,10 @@ h2{
   text-decoration: none;
   cursor: pointer;
 }
+
+form{
+  background-color: #eeeeee;
+  width: 15%;
+  text-align: center;
+  height: 1.5rem;
+}
