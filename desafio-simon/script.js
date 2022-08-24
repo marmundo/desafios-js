@@ -7,7 +7,8 @@ const strictButton = document.querySelector("#strict");
 const onButton = document.querySelector("#on");
 const startButton = document.querySelector("#start");
 let nomeJogador = ""
-let ranking={}
+//let ranking= {placares:[]}
+carregarRanking()
 
 // ordem dos botoes do simon
 let order = [];
@@ -33,6 +34,7 @@ let win;
 // número de rodadas para ganhar o jogo
 let level = 10
 
+
 strictButton.addEventListener('click', (event) => {
   if (strictButton.checked == true) {
     strict = true;
@@ -45,6 +47,7 @@ onButton.addEventListener('click', (event) => {
   if (onButton.checked == true) {
     on = true;
     turnCounter.innerHTML = "-";
+    carregarRanking()
   } else {
     on = false;
     turnCounter.innerHTML = "";
@@ -54,7 +57,7 @@ onButton.addEventListener('click', (event) => {
 });
 
 startButton.addEventListener('click', (event) => {
-  nomeJogador=armazenarNomeJogador()
+  nomeJogador = armazenarNomeJogador()
   if (on || win) {
     play();
   }
@@ -202,7 +205,7 @@ function check() {
   }
 
   if (good == false) {
-    adicionaJogadorNoRanking(nomeJogador,flash)
+    adicionaJogadorNoRanking(nomeJogador, flash)
     flashColor();
     turnCounter.innerHTML = "NO!";
     setTimeout(() => {
@@ -248,26 +251,58 @@ function armazenarNomeJogador() {
 }
 
 function adicionaJogadorNoRanking(nomeJogador, pontos) {
-  ranking[nomeJogador]=pontos
-  ordenaRanking()
+  placar = { nomeJogador, pontos }
+  console.log(ranking)
+  ranking.placares.push(placar)
+
+  armazenarRanking(ordenaRanking(ranking))
 }
 
-function ordenaRanking() {
+function rankingtoJSObject(ranking) {
+  object = {placares:[]}
+  ranking.forEach(jogador => {
+    object.placares.push({ "nomeJogador": jogador[0], "pontos": jogador[1] })
+  });
+  return object
+}
+
+function ordenaRanking(ranking) {
+  placares=ranking.placares
   let rankingOrdenado = [];
-  for (var jogador in ranking) {
-    rankingOrdenado.push([jogador, ranking[jogador]]);
-  }
+  placares.forEach((placar) => {
+    rankingOrdenado.push([placar.nomeJogador, placar.pontos]);
+  })
   rankingOrdenado.sort(function (a, b) {
     return a[1] - b[1];
   });
   atualizaRanking(rankingOrdenado)
+  return rankingOrdenado
 }
 
 function atualizaRanking(ranking) {
-  conteudo=""
+  conteudo = ""
   painelRanking = document.querySelector("#ranking-pontuacao")
-  ranking.forEach(jogador => {
-    conteudo += `<p>${jogador[0]}--${jogador[1]}</p>`
-  });
-  painelRanking.innerHTML = conteudo
+  if (!!ranking && Object.keys(ranking).length > 0) {
+    for (const jogador in ranking) {
+      conteudo += `<p>${ranking[jogador][0]}--${ranking[jogador][1]}</p>`
+    }
+    painelRanking.innerHTML = conteudo
+  }
+}
+
+function armazenarRanking(ranking) {
+  ranking=rankingtoJSObject(ranking)
+  if (typeof (Storage) !== "undefined") {
+    localStorage.setItem("ranking", JSON.stringify(ranking))
+  } else {
+    alert("Este navegador não suporta armazenar o placar")
+  }
+}
+
+function carregarRanking() {
+  ranking = JSON.parse(localStorage.getItem("ranking"))
+  if (!ranking) {
+    ranking = {placares:[]}
+  }
+  ordenaRanking(ranking)
 }
